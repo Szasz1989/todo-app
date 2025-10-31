@@ -2,16 +2,6 @@ import * as React from 'react';
 import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-/**
- * Checkbox Component
- * 
- * LEARNING NOTES:
- * - Custom styled checkbox (native checkbox is hard to style)
- * - Uses hidden native checkbox for accessibility
- * - Visual representation using divs and Lucide icon
- * - Controlled component (checked prop required)
- */
-
 export interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
   checked?: boolean;
@@ -27,7 +17,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           ref={ref}
           checked={checked}
           onChange={(e) => onCheckedChange?.(e.target.checked)}
-          className="sr-only" // Screen reader only (hidden but accessible)
+          className="sr-only"
           {...props}
         />
         <div
@@ -49,5 +39,3 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
 Checkbox.displayName = 'Checkbox';
 
 export { Checkbox };
-
-

@@ -1,16 +1,6 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 
-/**
- * Input Component
- * 
- * LEARNING NOTES:
- * - Styled text input using shadcn/ui design
- * - Uses CSS variables for colors (works with dark theme)
- * - Extends native HTML input element
- * - forwardRef allows parent components to access the input DOM node
- */
-
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
@@ -32,4 +22,3 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 Input.displayName = 'Input';
 
 export { Input };
-

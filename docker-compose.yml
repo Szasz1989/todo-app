@@ -1,11 +1,4 @@
 # Docker Compose Configuration for Full-Stack Todo App
-#
-# LEARNING NOTES:
-# - Docker Compose orchestrates multiple containers as one application
-# - Three services: MongoDB (database), Server (Express API), Client (React app)
-# - Containers can communicate with each other by service name
-# - Start everything with: docker-compose up
-# - Stop everything with: docker-compose down
 
 version: '3.8'
 

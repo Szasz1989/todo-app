@@ -2,14 +2,25 @@
 
 A full-stack todo application built with Express, MongoDB, and React - designed for learning backend development concepts.
 
+## ✨ Features
+
+- ✅ **Create, Read, Update, Delete** todos
+- 🔄 **Drag-and-drop** to reorder tasks
+- 📊 **Dashboard stats** - Total, Completed, Pending counts
+- 🎨 **Modern dark theme** with shadcn/ui
+- ⚡ **Real-time updates** with optimistic UI
+- 📱 **Responsive design** for all screen sizes
+- 🐳 **Fully Dockerized** - one command to start everything
+
 ## 🎯 Learning Objectives
 
 This project demonstrates:
 - **Backend**: Express.js with native MongoDB driver (no ORM)
-- **Database**: Direct MongoDB operations, connection pooling, CRUD
-- **Frontend**: React with TypeScript and shadcn/ui
-- **Architecture**: Separation of concerns (routes, controllers, database layer)
-- **Docker**: Containerized MongoDB
+- **Database**: Direct MongoDB operations, connection pooling, CRUD, ordering
+- **Frontend**: React with TypeScript, component composition, and drag-and-drop
+- **Architecture**: Separation of concerns (routes, controllers, database layer, utilities)
+- **Docker**: Full-stack containerization with hot-reload support
+- **UI/UX**: Modern component-based design with shadcn/ui
 
 ## 📁 Project Structure
 
@@ -18,24 +29,48 @@ todo-app/
 ├── server/                 # Express backend
 │   ├── src/
 │   │   ├── config/        # Database configuration
+│   │   │   └── database.js
 │   │   ├── db/            # Database operations (CRUD)
+│   │   │   └── todoDb.js
 │   │   ├── controllers/   # Request handlers & business logic
+│   │   │   └── todoController.js
 │   │   ├── routes/        # API endpoint definitions
+│   │   │   └── todoRoutes.js
+│   │   ├── utils/         # Utility functions
+│   │   │   └── errorHandler.js
 │   │   └── server.js      # Application entry point
+│   ├── Dockerfile
 │   └── package.json
 │
 ├── client/                 # React frontend
 │   ├── src/
 │   │   ├── components/    # React components
 │   │   │   ├── ui/        # shadcn/ui components
+│   │   │   │   ├── button.tsx
+│   │   │   │   ├── card.tsx
+│   │   │   │   ├── checkbox.tsx
+│   │   │   │   └── input.tsx
+│   │   │   ├── Header.tsx
+│   │   │   ├── StatsCards.tsx
+│   │   │   ├── ErrorMessage.tsx
+│   │   │   ├── LoadingState.tsx
+│   │   │   ├── EmptyState.tsx
+│   │   │   ├── TodoList.tsx
 │   │   │   ├── TodoItem.tsx
 │   │   │   └── AddTodoForm.tsx
 │   │   ├── lib/           # Utilities (API, utils)
+│   │   │   ├── api.ts
+│   │   │   └── utils.ts
 │   │   ├── types/         # TypeScript types
-│   │   └── App.tsx        # Main component
+│   │   │   └── todo.ts
+│   │   ├── App.tsx        # Main component
+│   │   └── main.tsx
+│   ├── Dockerfile
 │   └── package.json
 │
-└── docker-compose.yml      # MongoDB container
+├── docker-compose.yml      # Multi-container orchestration
+├── start.bat              # Windows startup script
+└── start.sh               # Mac/Linux startup script
 ```
 
 ## 🚀 Getting Started
@@ -126,8 +161,9 @@ Visit **http://localhost:5173** 🎉
 #### 1. **Native MongoDB Driver**
 - Direct database operations without ORM abstraction
 - Connection pooling and singleton pattern
-- CRUD operations: `insertOne`, `find`, `findOneAndUpdate`, `deleteOne`
-- ObjectId handling
+- CRUD operations: `insertOne`, `find`, `findOneAndUpdate`, `deleteOne`, `bulkWrite`
+- Modern ObjectId handling with `createFromHexString()`
+- Order management for sortable lists
 
 #### 2. **Express Middleware**
 - CORS for cross-origin requests
@@ -146,10 +182,13 @@ Visit **http://localhost:5173** 🎉
 - **Controllers**: Handle business logic
 - **Database Layer**: Manage data operations
 - **Config**: Environment setup
+- **Utils**: Reusable helper functions
 
 #### 5. **Error Handling**
-- Try-catch blocks
+- Centralized error handler utility
+- Try-catch blocks in controllers
 - Error responses with proper status codes
+- BSONError handling for invalid IDs
 - Graceful shutdown (close DB connections)
 
 ### Frontend Concepts
@@ -157,26 +196,45 @@ Visit **http://localhost:5173** 🎉
 #### 1. **React Hooks**
 - `useState` - Managing component state
 - `useEffect` - Side effects and data fetching
+- `useSensor` & `useSensors` - Drag-and-drop sensors
 
-#### 2. **Component Patterns**
-- Container components (App) - manage state
-- Presentation components (TodoItem) - display data
-- Props and callbacks
+#### 2. **Component Architecture**
+- **Container components** (App) - Manage state and logic
+- **Presentation components** (Header, StatsCards) - Display only
+- **Smart components** (TodoList) - Self-contained logic
+- **Compound components** (Card hierarchy)
+- Props and callbacks for communication
 
-#### 3. **State Management**
+#### 3. **Component Composition**
+- Breaking large components into smaller pieces
+- Single Responsibility Principle
+- Reusable, testable components
+- Clear component boundaries
+
+#### 4. **State Management**
 - Immutable updates (never mutate state)
 - Derived state (computed values)
 - Loading and error states
+- Optimistic UI updates
+- State hoisting
 
-#### 4. **TypeScript**
+#### 5. **Drag and Drop**
+- `@dnd-kit` library integration
+- Sortable lists with keyboard support
+- Drag overlay for visual feedback
+- Optimistic reordering with API sync
+
+#### 6. **TypeScript**
 - Interface definitions
 - Type safety for API calls
 - Generic types (`ApiResponse<T>`)
+- Props typing
 
-#### 5. **API Communication**
+#### 7. **API Communication**
 - Fetch API for HTTP requests
 - Async/await pattern
-- Error handling
+- Error handling and recovery
+- Centralized API layer
 
 ## 🛠️ Technologies Used
 
@@ -191,7 +249,8 @@ Visit **http://localhost:5173** 🎉
 - **TypeScript** - Type safety
 - **Vite** - Build tool
 - **Tailwind CSS** - Styling
-- **shadcn/ui** - UI components
+- **shadcn/ui** - UI component library (dark theme)
+- **@dnd-kit** - Drag-and-drop functionality
 - **Lucide React** - Icons
 
 ### Infrastructure
@@ -202,12 +261,13 @@ Visit **http://localhost:5173** 🎉
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/todos` | Get all todos |
+| GET | `/api/todos` | Get all todos (sorted by order) |
 | GET | `/api/todos/:id` | Get single todo |
-| POST | `/api/todos` | Create new todo |
+| POST | `/api/todos` | Create new todo (added at top) |
 | PATCH | `/api/todos/:id` | Update todo |
 | DELETE | `/api/todos/:id` | Delete todo |
 | PATCH | `/api/todos/:id/toggle` | Toggle completion |
+| PUT | `/api/todos/reorder` | Reorder todos (drag-and-drop) |
 | GET | `/health` | Server health check |
 
 ## 💡 Key Learning Points
@@ -231,22 +291,50 @@ Visit **http://localhost:5173** 🎉
 ### Best Practices Demonstrated
 
 1. **Environment Variables** - Never hardcode secrets
-2. **Error Handling** - Always catch and handle errors
-3. **Validation** - Validate user input
+2. **Error Handling** - Centralized error handler, consistent responses
+3. **Validation** - Validate user input on server and client
 4. **Immutable State** - Never mutate React state
 5. **Type Safety** - TypeScript prevents bugs
 6. **Connection Pooling** - Reuse database connections
 7. **Graceful Shutdown** - Clean up resources
+8. **Component Composition** - Break down complex components
+9. **DRY Principle** - Don't repeat yourself (reusable utilities)
+10. **Optimistic UI** - Update UI before server response
+11. **Modern MongoDB** - Use current, non-deprecated methods
+12. **Separation of Concerns** - Each file has one responsibility
+
+## 📦 Component Architecture
+
+The application follows a component-based architecture with clear separation:
+
+### UI Components (shadcn/ui)
+- `button.tsx`, `card.tsx`, `checkbox.tsx`, `input.tsx` - Base UI primitives
+
+### Presentation Components
+- **Header** - App branding and title
+- **StatsCards** - Dashboard metrics (Total, Completed, Pending)
+- **ErrorMessage** - Error display
+- **LoadingState** - Loading indicator
+- **EmptyState** - Empty list placeholder
+
+### Smart Components
+- **TodoList** - Manages drag-and-drop logic and item rendering
+- **TodoItem** - Individual todo with checkbox, delete, and drag handle
+- **AddTodoForm** - Form with input validation
+
+### Container Component
+- **App** - State management, API calls, component orchestration
 
 ## 🎓 Next Steps to Learn More
 
 1. **Add Authentication** - Learn about JWTs and sessions
-2. **Add Data Validation** - Try a library like Zod
+2. **Add Data Validation** - Try a library like Zod or Yup
 3. **Add Testing** - Learn Jest and React Testing Library
-4. **Add Pagination** - Handle large datasets
-5. **Add Search** - MongoDB text search
+4. **Add Pagination** - Handle large datasets efficiently
+5. **Add Search & Filters** - MongoDB text search and filtering
 6. **Add Real-time Updates** - WebSockets or Server-Sent Events
-7. **Deploy** - Learn about production hosting
+7. **Add Due Dates** - Date handling and sorting
+8. **Deploy to Production** - Netlify, Render, MongoDB Atlas
 
 ### Docker & Deployment
 

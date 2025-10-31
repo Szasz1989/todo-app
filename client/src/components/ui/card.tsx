@@ -1,23 +1,6 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 
-/**
- * Card Components
- * 
- * LEARNING NOTES:
- * - Card is a container component with consistent styling
- * - Broken into sub-components: Card, CardHeader, CardTitle, CardContent
- * - This is a compositional pattern - build complex UIs from simple pieces
- * 
- * Usage:
- * <Card>
- *   <CardHeader>
- *     <CardTitle>Title</CardTitle>
- *   </CardHeader>
- *   <CardContent>Content here</CardContent>
- * </Card>
- */
-
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -81,4 +64,3 @@ const CardContent = React.forwardRef<
 CardContent.displayName = 'CardContent';
 
 export { Card, CardHeader, CardTitle, CardDescription, CardContent };
-

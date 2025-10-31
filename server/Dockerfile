@@ -1,9 +1,4 @@
 # Server Dockerfile for Development
-#
-# LEARNING NOTES:
-# - Multi-stage build for efficiency
-# - Uses Node.js official image
-# - Installs dependencies and runs the app
 
 FROM node:18-alpine
 

@@ -2,16 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/**
- * shadcn/ui CSS Variables for Dark Theme
- * 
- * LEARNING NOTES:
- * - These CSS variables define the color scheme
- * - Dark theme is enabled by adding "dark" class to html element
- * - Values are in HSL format (Hue, Saturation, Lightness)
- * - This is the default dark slate theme from shadcn/ui
- */
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -67,4 +57,3 @@
     @apply bg-background text-foreground;
   }
 }
-

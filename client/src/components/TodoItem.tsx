@@ -6,16 +6,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-/**
- * TodoItem Component with Drag & Drop
- * 
- * LEARNING NOTES:
- * - Displays a single todo with checkbox and delete button
- * - Uses @dnd-kit/sortable for drag and drop functionality
- * - Props pattern: parent passes data and callbacks
- * - Drag handle (grip icon) for better UX
- */
-
 interface TodoItemProps {
   todo: Todo;
   onToggle: (id: string) => void;
@@ -23,7 +13,6 @@ interface TodoItemProps {
 }
 
 export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
-  // Set up drag and drop with dnd-kit
   const {
     attributes,
     listeners,
@@ -33,8 +22,6 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
     isDragging,
   } = useSortable({ id: todo._id });
 
-  // Create CSS transform for smooth dragging
-  // Disable transition during drag for better performance
   const style = {
     transform: CSS.Transform.toString(transform),
     transition: isDragging ? 'none' : transition,
@@ -52,7 +39,6 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
         isDragging && 'opacity-50 ring-2 ring-primary cursor-grabbing'
       )}
     >
-      {/* Drag handle */}
       <button
         className="cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground transition-colors"
         {...attributes}
@@ -61,13 +47,11 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
         <GripVertical className="h-5 w-5" />
       </button>
 
-      {/* Checkbox for completion status */}
       <Checkbox
         checked={todo.completed}
         onCheckedChange={() => onToggle(todo._id)}
       />
       
-      {/* Todo title and metadata */}
       <div className="flex-1 min-w-0 space-y-1">
         <p
           className={cn(
@@ -78,7 +62,6 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
           {todo.title}
         </p>
         
-        {/* Created date (small text) */}
         <p className="text-xs text-muted-foreground">
           {new Date(todo.createdAt).toLocaleDateString('en-US', {
             month: 'short',
@@ -90,7 +73,6 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
         </p>
       </div>
       
-      {/* Delete button - visible on hover */}
       <Button
         variant="ghost"
         size="icon"
@@ -102,4 +84,3 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
     </div>
   );
 }
-
